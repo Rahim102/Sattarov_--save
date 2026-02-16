@@ -196,6 +196,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\picture.png" />
+    <Resource Include="res\res\agent_list_layout.jpg" />
+    <Resource Include="res\res\picture.png" />
+    <Resource Include="res\res\Глазки-save.ico" />
+    <Resource Include="res\res\Глазки-save.png" />
     <Content Include="SattarovModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SattarovModel.Context.cs</LastGenOutput>
