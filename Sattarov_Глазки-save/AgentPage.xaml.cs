@@ -51,7 +51,7 @@ namespace Sattarov_Глазки_save
         {
 
         }
-        /*
+        
         private void ChangePriorityBtn_Click_1(object sender, RoutedEventArgs e)
         {
             int maxPriority = 0;
@@ -95,6 +95,6 @@ namespace Sattarov_Глазки_save
                 ChangePriorityBtn.Visibility = Visibility.Hidden;
             }
         }
-        */
+        
     }
 }
