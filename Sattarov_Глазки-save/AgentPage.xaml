@@ -19,7 +19,19 @@
                 <TextBox Name="TboxSearch" TextChanged="TboxSearch_TextChanged" Width="250" FontSize="15"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10">
-                <ComboBox Name="ComboType" SelectionChanged="ComboType_SelectionChanged" FontSize="15" Width="150">
+        
+                <ComboBox Name="ComboSort" SelectionChanged="ComboSort_SelectionChanged" FontSize="15" Width="150">
+                    <TextBlock>Сортировка</TextBlock>
+                    <TextBlock>наименование по возрастанию</TextBlock>
+                    <TextBlock>наименование по убыванию</TextBlock>
+                    <TextBlock>скидка по возрастанию</TextBlock>
+                    <TextBlock>скидка по убыванию</TextBlock>
+                    <TextBlock>приоритет по возрастанию</TextBlock>
+                    <TextBlock>приоритет по убыванию</TextBlock>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <ComboBox Name="ComboType" SelectionChanged="ComboType_SelectionChanged_1" FontSize="15" Width="150">
                     <TextBlock>Все типы</TextBlock>
                     <TextBlock>МФО</TextBlock>
                     <TextBlock>ООО</TextBlock>
@@ -28,18 +40,14 @@
                     <TextBlock>ОАО</TextBlock>
                     <TextBlock>ПАО</TextBlock>
                 </ComboBox>
-                <Button Content="Изменить приоритет на.." Name="ChangePriorityBtn" Width="200" FontSize="15" Click="ChangePriorityBtn_Click_1" Visibility="Hidden"></Button>
-                <Button Content="добавить агента" Name="addAgentBtn" Width="150" Margin="0,0,0,0" FontSize="15" Click="addAgentBtn_Click"></Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10">
-                
-            </StackPanel>
+          
+
         </WrapPanel>
         
-        <ListView Name="AgentListView" Grid.Row="1" SelectionChanged="AgentListView_SelectionChanged">
+        <ListView Name="AgentListView" Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1">
                     <Grid Background="{Binding FonStyle}">
 
                         <Grid.ColumnDefinitions>
@@ -72,7 +80,7 @@
                             <TextBlock Text="{Binding Discount}" FontSize="20"></TextBlock>
                         </StackPanel>
                     </Grid>
-                    </Border>
+                   
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
