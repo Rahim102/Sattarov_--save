@@ -48,7 +48,7 @@
         <ListView Name="AgentListView" Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Background="{Binding FonStyle}">
+                    <Grid>
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"></ColumnDefinition>
@@ -62,7 +62,18 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Stretch="Uniform" Height="100" Source="{Binding Logo , TargetNullValue=res/picture.png}"></Image>
+                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Stretch="Uniform" Height="100">
+                            <Image.Source>
+                                <Binding Path="Logo">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            res/picture.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                               
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
                             <TextBlock Text="{Binding TypeAgent}"  HorizontalAlignment="Left" FontSize="20" TextWrapping="Wrap"></TextBlock>
                             <TextBlock Text="{Binding Title, StringFormat=|{0}}" HorizontalAlignment="Left" FontSize="20" TextWrapping="Wrap"></TextBlock>

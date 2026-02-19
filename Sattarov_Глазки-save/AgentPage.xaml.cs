@@ -33,12 +33,12 @@ namespace Sattarov_Глазки_save
         private void UpdateAgent()
         {
             var currentAgent = GlazkiSattarovEntities.GetContext().Agent.ToList();
- 
-        
+
+
 
             if (ComboType.SelectedIndex == 1)
             {
-                currentAgent=currentAgent.Where(a=>a.TypeAgent=="МФО").ToList();
+                currentAgent = currentAgent.Where(a => a.TypeAgent == "МФО").ToList();
             }
             if (ComboType.SelectedIndex == 2)
             {
@@ -62,25 +62,22 @@ namespace Sattarov_Глазки_save
             }
 
 
-            if (ComboSort.SelectedIndex == 0)
-            {
-                currentAgent = currentAgent.OrderBy(p => p.Title ).ToList();
-            }
+
             if (ComboSort.SelectedIndex == 1)
             {
-                currentAgent = currentAgent.OrderBy(p => p.Title ).ToList();
+                currentAgent = currentAgent.OrderBy(p => p.Title).ToList();
             }
             if (ComboSort.SelectedIndex == 2)
             {
-                currentAgent = currentAgent.OrderByDescending(p => p.Title ).ToList();
+                currentAgent = currentAgent.OrderByDescending(p => p.Title).ToList();
             }
             if (ComboSort.SelectedIndex == 3)
             {
-                currentAgent = currentAgent.OrderBy(p => p.Discount ).ToList();
+                currentAgent = currentAgent.OrderBy(p => p.Discount).ToList();
             }
             if (ComboSort.SelectedIndex == 4)
             {
-                currentAgent = currentAgent.OrderByDescending(p => p.Discount ).ToList();
+                currentAgent = currentAgent.OrderByDescending(p => p.Discount).ToList();
             }
             if (ComboSort.SelectedIndex == 5)
             {
@@ -90,8 +87,12 @@ namespace Sattarov_Глазки_save
             {
                 currentAgent = currentAgent.OrderByDescending(p => p.Priority).ToList();
             }
-
-            currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TboxSearch.Text.ToLower())).ToList();
+            if (TboxSearch.Text.Length > 0)
+            {
+                currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TboxSearch.Text.ToLower()) ||
+                p.Phone.ToLower().Contains(TboxSearch.Text.ToLower())||
+                p.Email.ToLower().Contains(TboxSearch.Text.ToLower())).ToList();
+            }
             AgentListView.ItemsSource = currentAgent.ToList();
 
         }

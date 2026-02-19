@@ -323,6 +323,7 @@
     <Resource Include="Agents\agent_97.png" />
     <Resource Include="Agents\agent_98.png" />
     <Resource Include="Agents\agent_99.png" />
+    <Resource Include="res\picture.png" />
     <Content Include="SattarovModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SattarovModel.Context.cs</LastGenOutput>
