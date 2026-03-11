@@ -35,10 +35,6 @@ namespace Sattarov_Глазки_save
         public string Logo { get; set; }
         public int Priority { get; set; }
 
-        public int SaleCount { get
-            {
-                return ProductSale.Count;
-            } }
         public string TypeAgent { get
             {
                 return AgentType.Title;
@@ -50,37 +46,47 @@ namespace Sattarov_Глазки_save
                 int s = 0;
                 foreach (ProductSale p in ProductSale)
                 {
-                    TimeSpan diffecrenceWithoutTime = DateTime.Today.Date - p.SaleDate;
-                    if ((int)diffecrenceWithoutTime.TotalDays <= 360)
+                   // TimeSpan diffecrenceWithoutTime = DateTime.Today.Date - p.SaleDate;
+                   // if ((int)diffecrenceWithoutTime.TotalDays <= 365)
                         s += p.ProductCount;
                 }
                 return s;
+                
             }
         }
-        public int SalesForAllTime
+        public decimal Sales
         {
             get
             {
-                return ProductSale.Sum(p => p.ProductCount);
+                decimal s = 0;
+                foreach(ProductSale p in ProductSale)
+                {
+                    s += p.Stoimost;
+                }
+                return s;
             }
         }
         public int Discount
         {
             get
             {
-                int totalSales = SalesForAllTime;
-                if (totalSales > 500000) return 25;
-                else if (totalSales > 150000) return 20;
-                else if (totalSales > 50000) return 10;
-                else if (totalSales > 10000) return 5;
-                else return 0;
+                
+                if (this.Sales >= 500000) return 25;
+
+                if (this.Sales >= 150000) return 20;
+
+                if (this.Sales >= 50000) return 10;
+
+                if (this.Sales >= 10000) return 5;
+
+                 return 0;
             }
             }
         public string FonStyle
         {
             get
             {
-                if (Discount > 25)
+                if (Discount >=25)
                     return "LightGreen";
                 else
                     return "White";

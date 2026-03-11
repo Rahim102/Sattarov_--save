@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sattarov_Глазки_save"
         mc:Ignorable="d"
-        Title="Изменить приоритет" Height="450" Width="800" FontFamily="Century Gothic">
+        Title="Изменить приоритет" Height="150" Width="300" FontFamily="Century Gothic">
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Content="Приоритет" FontSize="20"></Label>
                 <TextBox Text="" Name="TBPriority" FontSize="20"></TextBox>
             </StackPanel>
             <Button Name="ChangePrior" Content="Изменить приоритет" FontSize="20" Width="250" Click="ChangePrior_Click"></Button>

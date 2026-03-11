@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace Sattarov_Глазки_save
             }
 
 
-
+        
             if (ComboSort.SelectedIndex == 1)
             {
                 currentAgent = currentAgent.OrderBy(p => p.Title).ToList();
@@ -87,20 +88,18 @@ namespace Sattarov_Глазки_save
             {
                 currentAgent = currentAgent.OrderByDescending(p => p.Priority).ToList();
             }
-            if (TboxSearch.Text.Length > 0)
-            {
-                currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TboxSearch.Text.ToLower()) ||
-                p.Phone.ToLower().Contains(TboxSearch.Text.ToLower())||
-                p.Email.ToLower().Contains(TboxSearch.Text.ToLower())).ToList();
-            }
+           
+            currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TboxSearch.Text.ToLower()) ||
+                p.Phone.Replace("+7", "8").Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "").Contains(TboxSearch.Text.Replace("+7", "8").Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", ""))
+               || p.Email.ToLower().Contains(TboxSearch.Text.ToLower())).ToList();
+     
+         
             AgentListView.ItemsSource = currentAgent.ToList();
-
+            TableList = currentAgent;
+            
+            ChangePage(0, 0);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new AddEditPage());
-        }
 
         private void TboxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -109,22 +108,22 @@ namespace Sattarov_Глазки_save
 
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
         }
 
         private void ChangePriorityBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void addAgentBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void SortBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
         private void ComboType_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -138,5 +137,105 @@ namespace Sattarov_Глазки_save
             UpdateAgent();
 
         }
+        int CountRecords;
+        int CountPage;
+        int CurrentPage = 0;
+        List<Agent> CurrentPageList = new List<Agent>();
+        List<Agent> TableList;
+
+        private void LeftDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(1, null);
+        }
+
+        private void RightDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(2, null);
+        }
+        private void ChangePage(int direction, int? selectedPage)
+        {
+            CountRecords = TableList.Count;
+            int pageSize = 10;
+
+            CountPage = CountRecords / pageSize;
+            if (CountRecords % pageSize > 0)
+                CountPage++;
+
+            if (selectedPage.HasValue)
+                CurrentPage = selectedPage.Value;
+            else if (direction == 1 && CurrentPage > 0)
+                CurrentPage--;
+            else if (direction == 2 && CurrentPage < CountPage - 1)
+                CurrentPage++;
+            else
+                return;
+
+            CurrentPageList = TableList.Skip(CurrentPage * pageSize).Take(pageSize).ToList();
+
+            PageListBox.ItemsSource = Enumerable.Range(1, CountPage);
+            PageListBox.SelectedIndex = CurrentPage;
+
+            int shown = CurrentPage * pageSize + CurrentPageList.Count;
+            TBCount.Text = shown.ToString();
+            TBAllRecords.Text = " из " + CountRecords;
+
+            AgentListView.ItemsSource = CurrentPageList;
+        }
+
+        private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
+        }
+
+        private void AgentListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AgentListView.SelectedItems.Count >0)
+            {
+                ChangePriorityBtn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ChangePriorityBtn.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void ChangePriorityBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            int maxPriority = 0;
+            foreach (Agent selectedAgent in AgentListView.SelectedItems)
+            {
+                if (selectedAgent.Priority > maxPriority)
+                {
+                    maxPriority = selectedAgent.Priority;
+                }
+            }
+            PriorChange prior = new PriorChange(maxPriority);
+            prior.ShowDialog();
+            int newPriority = Convert.ToInt32(prior.TBPriority.Text);
+            foreach (Agent agent in AgentListView.SelectedItems) {
+                agent.Priority = newPriority; }
+            try
+            {
+                GlazkiSattarovEntities.GetContext().SaveChanges();
+                MessageBox.Show("Информация сохранена");
+                AgentListView.SelectedItems.Clear();
+                UpdateAgent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void addAgentBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
+
+        private void editBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent ));
+        }
+
     }
 }

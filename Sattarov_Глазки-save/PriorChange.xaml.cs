@@ -27,14 +27,14 @@ namespace Sattarov_Глазки_save
 
         private void ChangePrior_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TBPriority.Text))
+            if (string.IsNullOrWhiteSpace(TBPriority.Text))
             {
-                MessageBox.Show("заполните поле");
+                MessageBox.Show("Заполните поле");
                 return;
             }
-            if (Convert.ToInt32(TBPriority.Text) < 0)
+            if (Convert.ToInt32(TBPriority.Text)<0)
             {
-                MessageBox.Show("приоритет не может быть отрицательным");
+                MessageBox.Show("Приоритет не может быть отрицательным");
                 return;
             }
             this.Close();
